@@ -292,6 +292,10 @@ cJSON_bool __wrap_cJSON_IsNumber(const cJSON * const item) {
     return mock_type(cJSON_bool);
 }
 
+cJSON_bool __wrap_cJSON_IsObject(const cJSON * const item) {
+    return mock_type(cJSON_bool);
+}
+
 cJSON * __wrap_cJSON_CreateArray() {
     return mock_type(cJSON *);
 }
@@ -1943,13 +1947,14 @@ void test_w_logtest_check_input_empty_json(void ** state) {
     /* event */
     will_return(__wrap_cJSON_GetObjectItemCaseSensitive, NULL);
     will_return(__wrap_cJSON_IsString, false);
+    will_return(__wrap_cJSON_IsObject, false);
 
-    expect_string(__wrap__mdebug1, formatted_msg, "(7308): 'event' JSON field is required and must be a string");
+    expect_string(__wrap__mdebug1, formatted_msg, "(7313): 'event' JSON field not found or is empty");
 
     expect_value(__wrap__os_analysisd_add_logmsg, level, LOGLEVEL_ERROR);
     expect_value(__wrap__os_analysisd_add_logmsg, list, list_msg);
     expect_string(__wrap__os_analysisd_add_logmsg, formatted_msg,
-                  "(7308): 'event' JSON field is required and must be a string");
+                  "(7313): 'event' JSON field not found or is empty");
 
     /* token */
     will_return(__wrap_cJSON_GetObjectItemCaseSensitive, NULL);
@@ -2080,13 +2085,14 @@ void test_w_logtest_check_input_missing_event(void ** state) {
     /* event */
     will_return(__wrap_cJSON_GetObjectItemCaseSensitive, NULL);
     will_return(__wrap_cJSON_IsString, false);
+    will_return(__wrap_cJSON_IsObject, false);
 
-    expect_string(__wrap__mdebug1, formatted_msg, "(7308): 'event' JSON field is required and must be a string");
+    expect_string(__wrap__mdebug1, formatted_msg, "(7313): 'event' JSON field not found or is empty");
 
     expect_value(__wrap__os_analysisd_add_logmsg, level, LOGLEVEL_ERROR);
     expect_value(__wrap__os_analysisd_add_logmsg, list, list_msg);
     expect_string(__wrap__os_analysisd_add_logmsg, formatted_msg,
-                  "(7308): 'event' JSON field is required and must be a string");
+                  "(7313): 'event' JSON field not found or is empty");
 
     /* token */
     will_return(__wrap_cJSON_GetObjectItemCaseSensitive, NULL);

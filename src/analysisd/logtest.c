@@ -673,7 +673,6 @@ bool w_logtest_check_input(char * input_json, cJSON ** req, OSList * list_msg) {
 }
 
 
-
 w_logtest_session_t * w_logtest_get_session(cJSON * req, OSList * list_msg, w_logtest_connection_t * connection) {
 
     w_logtest_session_t * session = NULL;
